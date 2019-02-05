@@ -2,27 +2,25 @@
 implement commonly used functions here
 """
 
+
 import random
 
 
 def generate_random(table):
     """
-    Generates random and unique string. Used for id/key generation:
-         - at least 2 special characters (except: ';'), 2 number, 2 lower and 2 upper case letter
-         - it must be unique in the table (first value in every row is the id)
-
-    Args:
-        table (list): Data table to work on. First columns containing the keys.
-
-    Returns:
-        string: Random and unique string
+    Generates random and unique string.
+    :param table: database - a text file with data records from different modules
+    :return: Random unique id/key
     """
-
-    generated = ''
-
-    # your code
-
-    return generated
+    unique_values = ["abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                     "1234567890", "\`~!@#$%^&*()_-+={[}}|:,'<>?/"]
+    while True:
+        string_generator = [random.choice(char) for char in unique_values for _ in range(2)]
+        random.shuffle(string_generator)
+        generated = "".join(string_generator)
+        id_list = [column_id_key[0] for column_id_key in table]
+        if generated not in id_list:
+            return generated
 
 
 def sum_values(numbers_list):
