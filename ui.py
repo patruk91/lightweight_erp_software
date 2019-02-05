@@ -1,6 +1,9 @@
 """ User Interface (UI) module """
 
 
+import common
+
+
 def get_width_columns(table, title_list):
     """
     Find the longest column width in table.
@@ -29,6 +32,22 @@ def get_position_width_dictionary(table, title_list):
     string_positions = ["pos" + str(indices) for indices in range(number_of_columns)]
     position_value = dict(zip(string_positions, width_columns))
     return position_value
+
+
+def get_total_width_of_table(table, title_list):
+    """
+    Calculate total width of table.
+    :param table: database - a text file with data records from different modules
+    :param title_list: list containing table headers
+    :return: int of total sum of each columns and paddings
+    """
+    PADDINGS = 3
+    width_columns = get_width_columns(table, title_list)
+    total_column_length = common.sum_values(width_columns) + 1
+    # +1 due to end in var:string "|" in print_table
+    number_of_columns = len(width_columns)
+    width_table = total_column_length + (number_of_columns * PADDINGS)
+    return width_table
 
 
 def print_table(table, title_list):
