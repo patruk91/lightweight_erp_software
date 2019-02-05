@@ -120,32 +120,30 @@ def update(table, id_):
     return table
 
 
-# special functions:
-# ------------------
-
 def get_oldest_person(table):
     """
-    Question: Who is the oldest person?
-
-    Args:
-        table (list): data table to work on
-
-    Returns:
-        list: A list of strings (name or names if there are two more with the same value)
+    Find the oldest persons
+    :param table: table: database - a text file with data records from hr module
+    :return: list with oldest persons name
     """
-
-    # your code
+    oldest_year = min([year_column[2] for year_column in table])
+    oldest_names = [record[1] for record in table if record[2] == oldest_year]
+    # record[1] == name, record[2] == year
+    ui.print_result(oldest_names, "Oldest persons:")
+    return oldest_names
 
 
 def get_persons_closest_to_average(table):
     """
-    Question: Who is the closest to the average age?
-
-    Args:
-        table (list): data table to work on
-
-    Returns:
-        list: list of strings (name or names if there are two more with the same value)
+    Find the person, which is closest to average age
+    :param table: list of lists with data form hr department
+    :return: list with persons, which is closet to average age
     """
+    years = [int(year_column[2]) for year_column in table]
+    years_avg = common.add_values(years) / len(years)
+    similar_years = min(years, key=lambda x: abs(x - years_avg))
 
-    # your code
+    closest_person = [record[1] for record in table if int(record[2]) == similar_years]
+    # record[1] == name, record[2] == year
+    ui.print_result(closest_person, "Closest person to average year:")
+    return closest_person
