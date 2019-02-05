@@ -15,8 +15,20 @@ def get_width_columns(table, title_list):
     width_columns = [columns_width_from_file[indices] if columns_width_from_file[indices] >
                      titles_width[indices] else titles_width[indices]
                      for indices in range(number_of_columns)]
-
     return width_columns
+
+
+def get_position_width_dictionary(table, title_list):
+    """
+    Create a dictionary with position and column width. Is need to **kwargs
+    in print table function. Due to auto-format table.
+    :return: Dictionary with position:width
+    """
+    width_columns = get_width_columns(table, title_list)
+    number_of_columns = len(width_columns)
+    string_positions = ["pos" + str(indices) for indices in range(number_of_columns)]
+    position_value = dict(zip(string_positions, width_columns))
+    return position_value
 
 
 def print_table(table, title_list):
