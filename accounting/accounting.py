@@ -146,7 +146,7 @@ def which_year_max(table):
 
     year_indices = year_indices[0]
     year_max = table[year_indices][3]
-    show_table([table[year_indices]])
+    ui.print_result(year_max, "Highest profit was in:")
     return int(year_max)
 
 
@@ -157,8 +157,9 @@ def avg_amount(table, year):
     :param year: year to search
     :return: profit = (income - outflow)/(items count)
     """
-    cash_flow = [(record[4], int(record[5])) for record in table if int(record[3]) == year]
+    cash_flow = [(record[4], int(record[5])) for record in table if int(record[3]) == int(year)]
     income = [wages[1] for wages in cash_flow if wages[0] == "in"]
     outflow = [wages[1] for wages in cash_flow if wages[0] == "out"]
     profit = (common.sum_values(income) - common.sum_values(outflow)) / len(cash_flow)
+    ui.print_result(profit, "Average profit in " + year + " was:")
     return profit

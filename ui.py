@@ -71,17 +71,11 @@ def print_table(table, title_list):
 
 def print_result(result, label):
     """
-    Displays results of the special functions.
-
-    Args:
-        result: result of the special function (string, list or dict)
-        label (str): label of the result
-
-    Returns:
-        None: This function doesn't return anything it only prints to console.
+    Display results of the special functions.
+    :param result: result of the special function e.g string, list or dict
+    :param label: label of the result
     """
-
-    # your code
+    print("{} {}\n" .format(label, result))
 
 
 def print_menu(title, list_options, exit_message):
