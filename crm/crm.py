@@ -126,30 +126,28 @@ def update(table, id_):
 
 def get_longest_name_id(table):
     """
-        Question: What is the id of the customer with the longest name?
+    Find id of the customer with the longest name.
+    :param table: list of lists with data form crm department
+    :return: Id of the longest name (if there are more than one, return
+             the last by alphabetical order of the names)
+    """
+    names = [name_column[1] for name_column in table]
+    names_length = [len(name_column[1]) for name_column in table]
+    max_len_name = max(names_length)
+    longest_names = [names[i] for i in range(len(names)) if names_length[i] == max_len_name]
 
-        Args:
-            table (list): data table to work on
-
-        Returns:
-            string: id of the longest name (if there are more than one, return
-                the last by alphabetical order of the names)
-        """
-
-    # your code
+    longest_names = common.handle_sort_names(longest_names)
+    get_indice_name = [indice for indice in range(len(names)) if names[indice] == longest_names[-1]][0]
+    name_id = table[get_indice_name][0]
+    return name_id
 
 
-# the question: Which customers has subscribed to the newsletter?
-# return type: list of strings (where string is like email+separator+name, separator=";")
 def get_subscribed_emails(table):
     """
-        Question: Which customers has subscribed to the newsletter?
-
-        Args:
-            table (list): data table to work on
-
-        Returns:
-            list: list of strings (where a string is like "email;name")
-        """
-
-    # your code
+    Find customers has subscribed the newsletter.
+    :param table: list of lists with data form crm department
+    :return: list with subscribed customers
+    """
+    subscribed_emails = [record[2] + ";" + record[1] for record in table if int(record[3]) == 1]
+    # record[1] == name, record[2] == email, record[3] == subscribed or not
+    return subscribed_emails
