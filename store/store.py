@@ -123,33 +123,39 @@ def update(table, id_):
     return table
 
 
-# special functions:
-# ------------------
-
 def get_counts_by_manufacturers(table):
     """
-    Question: How many different kinds of game are available of each manufacturer?
-
-    Args:
-        table (list): data table to work on
-
-    Returns:
-         dict: A dictionary with this structure: { [manufacturer] : [count] }
+    Calculate how many different kinds of game are available of each manufacturer.
+    :param table: database - a text file with data records from inventory module
+    :return: dictionary: {[manufacturer]:[count]}
     """
+    companies = []
+    game = [game_column[1] for game_column in table]
+    studio = [company_column[2] for company_column in table]
 
-    # your code
+    for company in table:
+        if company[2] not in companies:
+            companies.append(company[2])
+
+    games_by_studio = [[game[i] for i in range(len(studio)) if company == studio[i]] for company in companies]
+    count_of_games = [len(games) for games in games_by_studio]
+    amount_of_games = dict(zip(companies, count_of_games))
+    ui.print_result(amount_of_games, "Games amount by manufacturer:")
+    return amount_of_games
 
 
 def get_average_by_manufacturer(table, manufacturer):
     """
-    Question: What is the average amount of games in stock of a given manufacturer?
-
-    Args:
-        table (list): data table to work on
-        manufacturer (str): Name of manufacturer
-
-    Returns:
-         number
+    Average amount of games in stock of a given manufacturer
+    :param table: database - a text file with data records from inventory module
+    :param manufacturer: name of company
+    :return: average number
     """
+    ui.print_table(table, table_structure)
+    studio_and_stock = [(record[2], record[4]) for record in table if record[2] == manufacturer]
+    amount_in_stock = [int(games[1]) for games in
+                       studio_and_stock if games[0] == manufacturer]
+    avg_count = [common.add_values(amount_in_stock) / len(amount_in_stock)][0]
+    ui.print_result(avg_count, "Average amount of games in stock of a given manufacturer:")
+    return avg_count
 
-    # your code

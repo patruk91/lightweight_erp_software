@@ -149,7 +149,6 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     :param ..._to: choose "MM/YY/DD" to start to search
     :return: list of lists with items in range.
     """
-
     date_from = "".join(str(year_from) + str(month_from) + str(day_from))
     date_to = "".join(str(year_to) + str(month_to) + str(day_to))
     dates_to_check = ["".join(str(record[5]) + str(record[3]) + str(record[4])) for record in table]
