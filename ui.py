@@ -1,6 +1,24 @@
 """ User Interface (UI) module """
 
 
+def get_width_columns(table, title_list):
+    """
+    Find the longest column width in table.
+    :param table: database - a text file with data records from different modules
+    :return: list with width of columns.
+    """
+    number_of_columns = len(table[0])
+    columns_width_from_file = [max([len(data[indices]) for data in table])
+                               for indices in range(number_of_columns)]
+
+    titles_width = (list(len(title) for title in title_list))
+    width_columns = [columns_width_from_file[indices] if columns_width_from_file[indices] >
+                     titles_width[indices] else titles_width[indices]
+                     for indices in range(number_of_columns)]
+
+    return width_columns
+
+
 def print_table(table, title_list):
     """
     Prints table with data.
