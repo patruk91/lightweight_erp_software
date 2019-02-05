@@ -129,28 +129,36 @@ def update(table, id_):
 
 def which_year_max(table):
     """
-    Question: Which year has the highest profit? (profit = in - out)
-
-    Args:
-        table (list): data table to work on
-
-    Returns:
-        number
+    Find the year where was highest income.
+    :param table: database - a text file with data records from accounting module
+    :return: year with highest income
     """
+    transaction_type = [column_type[4] for column_type in table]
+    amount = [int(column_amount[5]) for column_amount in table]
+    max_amount = max([int(amount[5]) for amount in table if amount[4] == "in"])
+    year_indices = [indices for indices in range(len(amount))
+                    if amount[indices] == max_amount and
+                    transaction_type[indices] == "in"]
 
-    # your code
+    if len(year_indices) > 1:
+        years_max = [int(table[year_indices[indices]][3]) for indices in range(len(year_indices))]
+        return years_max
+
+    year_indices = year_indices[0]
+    year_max = table[year_indices][3]
+    show_table([table[year_indices]])
+    return int(year_max)
 
 
 def avg_amount(table, year):
     """
-    Question: What is the average (per item) profit in a given year? [(profit)/(items count)]
-
-    Args:
-        table (list): data table to work on
-        year (number)
-
-    Returns:
-        number
+    Calculate average (per item) profit in a given year.
+    :param table: database - a text file with data records from accounting module
+    :param year: year to search
+    :return: profit = (income - outflow)/(items count)
     """
-
-    # your code
+    cash_flow = [(record[4], int(record[5])) for record in table if int(record[3]) == year]
+    income = [wages[1] for wages in cash_flow if wages[0] == "in"]
+    outflow = [wages[1] for wages in cash_flow if wages[0] == "out"]
+    profit = (common.sum_values(income) - common.sum_values(outflow)) / len(cash_flow)
+    return profit
