@@ -139,6 +139,7 @@ def get_longest_name_id(table):
     longest_names = common.handle_sort_names(longest_names)
     get_indice_name = [indice for indice in range(len(names)) if names[indice] == longest_names[-1]][0]
     name_id = table[get_indice_name][0]
+    ui.print_result(name_id, "Id of the customer with longest name:")
     return name_id
 
 
@@ -150,4 +151,5 @@ def get_subscribed_emails(table):
     """
     subscribed_emails = [record[2] + ";" + record[1] for record in table if int(record[3]) == 1]
     # record[1] == name, record[2] == email, record[3] == subscribed or not
+    ui.print_result(subscribed_emails, "Customers that subscribed emails:")
     return subscribed_emails

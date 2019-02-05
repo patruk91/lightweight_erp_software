@@ -23,13 +23,30 @@ def generate_random(table):
             return generated
 
 
-def sum_values(numbers_list):
+def add_values(numbers_list):
     """
-    Sum values from list.
+    add values from list.
     :param numbers_list: list with integers.
-    :return: sum(data_list)
+    :return: add(data_list)
     """
-    sum_numbers = 0
+    add_numbers = 0
     for number in numbers_list:
-        sum_numbers += number
-    return sum_numbers
+        add_numbers += number
+    return add_numbers
+
+
+def handle_sort_names(longest_names):
+    """
+    Sort the string data in ascending order.
+    :param longest_names: Name of people to sort.
+    :return: list with sorted names
+    """
+    x = 0
+    while x < len(longest_names):
+        for indice in range(len(longest_names) - 1):
+            if longest_names[indice] > longest_names[indice + 1]:
+                temp = longest_names[indice + 1]
+                longest_names[indice + 1] = longest_names[indice]
+                longest_names[indice] = temp
+        x += 1
+    return longest_names
