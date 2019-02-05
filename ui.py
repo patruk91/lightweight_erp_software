@@ -43,7 +43,7 @@ def get_total_width_of_table(table, title_list):
     """
     PADDINGS = 3
     width_columns = get_width_columns(table, title_list)
-    total_column_length = common.sum_values(width_columns) + 1
+    total_column_length = common.add_values(width_columns) + 1
     # +1 due to end in var:string "|" in print_table
     number_of_columns = len(width_columns)
     width_table = total_column_length + (number_of_columns * PADDINGS)

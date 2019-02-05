@@ -123,7 +123,7 @@ def update(table, id_):
 def get_oldest_person(table):
     """
     Find the oldest persons
-    :param table: table: database - a text file with data records from hr module
+    :param table: database - a text file with data records from hr module
     :return: list with oldest persons name
     """
     oldest_year = min([year_column[2] for year_column in table])
