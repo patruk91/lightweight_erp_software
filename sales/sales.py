@@ -123,39 +123,40 @@ def update(table, id_):
     return table
 
 
-# special functions:
-# ------------------
-
 def get_lowest_price_item_id(table):
     """
-    Question: What is the id of the item that was sold for the lowest price?
-    if there are more than one item at the lowest price, return the last item by alphabetical order of the title
-
-    Args:
-        table (list): data table to work on
-
-    Returns:
-         string: id
+    Find item, which was sold for the lowest price. If there are more than
+    one item at the lowest price, return the last item by alphabetical
+    order of the title
+    :param table: text file where are included some information.
+    :return: id of item
     """
+    price = min([int(price_column[2]) for price_column in table])
+    title_with_min_price = [record[1] for record in table if int(record[2]) == price]
+    # record[1] == title_column, record[2] == price_column
+    sorted_title = common.handle_sort_names(title_with_min_price)
 
-    # your code
+    result = [record for record in table if record[1] == sorted_title[-1]][0]
+    ui.print_result(result[0], "Id of item with lowest price:")
+    return result[0]
 
 
 def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
     """
-    Question: Which items are sold between two given dates? (from_date < sale_date < to_date)
-
-    Args:
-        table (list): data table to work on
-        month_from (int)
-        day_from (int)
-        year_from (int)
-        month_to (int)
-        day_to (int)
-        year_to (int)
-
-    Returns:
-        list: list of lists (the filtered table)
+    Calcualte items, which are sold between two given dates.
+    :param table: text file where are included some information.
+    :param ..._from: choose "MM/YY/DD" from start to search
+    :param ..._to: choose "MM/YY/DD" to start to search
+    :return: list of lists with items in range.
     """
 
-    # your code
+    date_from = "".join(str(year_from) + str(month_from) + str(day_from))
+    date_to = "".join(str(year_to) + str(month_to) + str(day_to))
+    dates_to_check = ["".join(str(record[5]) + str(record[3]) + str(record[4])) for record in table]
+    # convert to YEAR/MONTH/DAY
+
+    items_sold_between = [table[i] for i in range(len(table)) if date_from < dates_to_check[i] < date_to]
+    convert_items = [[int(number) if number.isdigit() else number
+                      for number in record] for record in items_sold_between]
+    ui.print_result(convert_items, "Items from range:")
+    return convert_items
