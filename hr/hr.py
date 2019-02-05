@@ -14,33 +14,60 @@ import ui
 import data_manager
 # common module
 import common
+# main module
+import main
+
+
+file_name = "hr/persons.csv"
+table_structure = ["Id", "Name", "Birth Year"]
+
+
+def handle_submenu():
+    """Display sub-menu"""
+    title = "\nHR MODULE"
+    list_options = ["Show table", "Add", "Remove", "Update",
+                    "Oldest person", "Closest person to average age"]
+    exit_message = "Back to main menu"
+    ui.print_menu(title, list_options, exit_message)
 
 
 def start_module():
     """
-    Starts this module and displays its menu.
-     * User can access default special features from here.
-     * User can go back to main menu from here.
-
-    Returns:
-        None
+    Display menu and wait for user choice.
     """
+    handle_submenu()
+    table = data_manager.get_table_from_file(file_name)
 
-    # your code
+    inputs = ui.get_inputs(["Please choose your option"], " ")
+    option = inputs[0]
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        ui.print_table(table, table_structure)
+        id_ = ui.get_inputs(["Enter id of record to delete"], "")
+        remove(table, id_)
+    elif option == "4":
+        ui.print_table(table, table_structure)
+        id_ = ui.get_inputs(["Enter id of record which you want to edit"], "")
+        update(table, id_)
+    elif option == "5":
+        get_oldest_person(table)
+    elif option == "6":
+        get_persons_closest_to_average(table)
+    elif option == "0":
+        main.main()
+    else:
+        raise KeyError("There is no such option.")
 
 
 def show_table(table):
     """
-    Display a table
-
-    Args:
-        table (list): list of lists to be displayed.
-
-    Returns:
-        None
+    Display a table from store module.
+    :param table: database - a text file with data records from hr module
     """
-
-    # your code
+    ui.print_table(table, table_structure)
 
 
 def add(table):

@@ -19,7 +19,7 @@ from crm import crm
 
 
 def choose():
-    inputs = ui.get_inputs(["Please enter a number: "], "")
+    inputs = ui.get_inputs(["Please enter a number"], "")
     option = inputs[0]
     if option == "1":
         store.start_module()
@@ -56,7 +56,7 @@ def main():
         try:
             choose()
         except KeyError as err:
-            ui.print_error_message(str(err))
+            ui.print_error_message(str(err) + "\n")
 
 
 if __name__ == '__main__':

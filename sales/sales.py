@@ -17,33 +17,60 @@ import ui
 import data_manager
 # common module
 import common
+# main module
+import main
+
+
+file_name = "sales/sales.csv"
+table_structure = ["Id", "Title", "Price", "Month", "Day", "Year"]
+
+
+def handle_submenu():
+    """Display sub-menu"""
+    title = "\nSALES MODULE"
+    list_options = ["Show table", "Add", "Remove", "Update",
+                    "Show id of item with lowest selling price", "Show items sold between dates"]
+    exit_message = "Back to main menu"
+    ui.print_menu(title, list_options, exit_message)
 
 
 def start_module():
     """
-    Starts this module and displays its menu.
-     * User can access default special features from here.
-     * User can go back to main menu from here.
-
-    Returns:
-        None
+    Display menu and wait for user choice.
     """
+    handle_submenu()
+    table = data_manager.get_table_from_file(file_name)
 
-    # your code
+    inputs = ui.get_inputs(["Please choose your option"], " ")
+    option = inputs[0]
+    if option == "1":
+        show_table(table)
+    elif option == "2":
+        add(table)
+    elif option == "3":
+        ui.print_table(table, table_structure)
+        id_ = ui.get_inputs(["Enter id of record to delete"], "")
+        remove(table, id_)
+    elif option == "4":
+        ui.print_table(table, table_structure)
+        id_ = ui.get_inputs(["Enter id of record which you want to edit"], "")
+        update(table, id_)
+    elif option == "5":
+        get_lowest_price_item_id(table)
+    elif option == "6":
+        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+    elif option == "0":
+        main.main()
+    else:
+        raise KeyError("There is no such option.")
 
 
 def show_table(table):
     """
-    Display a table
-
-    Args:
-        table (list): list of lists to be displayed.
-
-    Returns:
-        None
+    Display a table from store module.
+    :param table: database - a text file with data records from sales module
     """
-
-    # your code
+    ui.print_table(table, table_structure)
 
 
 def add(table):
