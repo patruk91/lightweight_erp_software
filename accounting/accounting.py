@@ -161,5 +161,5 @@ def avg_amount(table, year):
     income = [wages[1] for wages in cash_flow if wages[0] == "in"]
     outflow = [wages[1] for wages in cash_flow if wages[0] == "out"]
     profit = (common.sum_values(income) - common.sum_values(outflow)) / len(cash_flow)
-    ui.print_result(profit, "Average profit in " + year + " was:")
+    ui.print_result(profit, "Average profit in was:")
     return profit
