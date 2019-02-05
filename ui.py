@@ -52,26 +52,21 @@ def get_total_width_of_table(table, title_list):
 
 def print_table(table, title_list):
     """
-    Prints table with data.
-
-    Example:
-        /-----------------------------------\
-        |   id   |      title     |  type   |
-        |--------|----------------|---------|
-        |   0    | Counter strike |    fps  |
-        |--------|----------------|---------|
-        |   1    |       fo       |    fps  |
-        \-----------------------------------/
-
-    Args:
-        table (list): list of lists - table to display
-        title_list (list): list containing table headers
-
-    Returns:
-        None: This function doesn't return anything it only prints to console.
+    Prints neatly formatted table with data.
+    :param table: database - a text file with data records from different modules
+    :param title_list: list containing table headers
     """
+    position_width = get_position_width_dictionary(table, title_list)
+    width_table = get_total_width_of_table(table, title_list)
+    string_pos = ''.join(['| {:^{' + pos + '}} ' for pos in position_width.keys()]) + "|"
 
-    # your goes code
+    print("-" * width_table)
+    print(string_pos.format(*title_list, **position_width))
+
+    print("-" * width_table)
+    for record in table:
+        print(string_pos.format(*record, **position_width))
+        print("-" * width_table)
 
 
 def print_result(result, label):
