@@ -86,6 +86,7 @@ def add(table):
     :param table: database - a text file with data records from accounting module
     :return: updated table with new record
     """
+    show_table(table)
     new_record = []
     new_record.append(common.generate_random(table))
 

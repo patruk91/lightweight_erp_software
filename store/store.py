@@ -85,6 +85,7 @@ def add(table):
     :param table: database - a text file with data records from accounting module
     :return: updated table with new record
     """
+    show_table(table)
     new_record = []
     new_record.append(common.generate_random(table))
 
@@ -167,6 +168,8 @@ def get_counts_by_manufacturers(table):
     count_of_games = [len(games) for games in games_by_studio]
     amount_of_games = dict(zip(companies, count_of_games))
     ui.print_result(amount_of_games, "Games amount by manufacturer:")
+    ui.print_table(list(zip(companies, [str(len(games)) for games in games_by_studio])), [
+                   "Manufacturer", "Number of game types"])
     return amount_of_games
 
 
@@ -177,7 +180,6 @@ def get_average_by_manufacturer(table, manufacturer):
     :param manufacturer: name of company
     :return: average number
     """
-    ui.print_table(table, table_structure)
     studio_and_stock = [(record[2], record[4])
                         for record in table if record[2] == manufacturer]
     amount_in_stock = [int(games[1]) for games in

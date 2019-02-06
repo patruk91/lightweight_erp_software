@@ -85,6 +85,7 @@ def add(table):
     :param table: database - a text file with data records from accounting module
     :return: updated table with new record
     """
+    show_table(table)
     new_record = []
     new_record.append(common.generate_random(table))
 
@@ -162,6 +163,7 @@ def get_available_items(table):
     ui.print_result(
         convert_actual_dur,
         "List of items with actual durability:")
+    show_table(actual_durability)
     return convert_actual_dur
 
 
@@ -192,4 +194,6 @@ def get_average_durability_by_manufacturers(table):
 
     dict_avg_dur = dict(zip(list_of_manufacturer, convert_avg_dur))
     ui.print_result(dict_avg_dur, "Average durability by manufacturer:")
+    ui.print_table(list(zip(list_of_manufacturer, average_durability)), [
+        "Manufacturer", "Average durability"])
     return dict_avg_dur

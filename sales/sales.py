@@ -64,14 +64,15 @@ def start_module():
     elif option == "5":
         get_lowest_price_item_id(table)
     elif option == "6":
+        date_options = handle_user_dates()
         get_items_sold_between(
             table,
-            month_from,
-            day_from,
-            year_from,
-            month_to,
-            day_to,
-            year_to)
+            date_options[0],
+            date_options[1],
+            date_options[2],
+            date_options[3],
+            date_options[4],
+            date_options[5])
     elif option == "0":
         main.main()
     else:
@@ -92,6 +93,7 @@ def add(table):
     :param table: database - a text file with data records from accounting module
     :return: updated table with new record
     """
+    show_table(table)
     new_record = []
     new_record.append(common.generate_random(table))
 
@@ -174,6 +176,26 @@ def get_lowest_price_item_id(table):
     return result[0]
 
 
+def handle_user_dates():
+    """
+    Ask user for month, year, day from and to search.
+    :return: list with dates: from, to
+    """
+    questions = ["Enter month from do you want search", "Enter day from do you want search",
+                 "Enter year from do you want search", "Enter month do you want look for",
+                 "Enter day do you want look for", "Enter year do you want look for"]
+    dates = ["month", "day", "year", "month", "day", "year"]
+    options = []
+    i = 0
+    while i < len(questions):
+        value = ui.get_inputs([questions[i]], "")
+        if common.check_is_number(value):
+            if common.check_data_in_range(value, dates[i]):
+                options.append(int(value))
+                i += 1
+    return options
+
+
 def get_items_sold_between(
         table,
         month_from,
@@ -201,4 +223,5 @@ def get_items_sold_between(
     convert_items = [[int(number) if number.isdigit() else number
                       for number in record] for record in items_sold_between]
     ui.print_result(convert_items, "Items from range:")
+    show_table(items_sold_between)
     return convert_items
