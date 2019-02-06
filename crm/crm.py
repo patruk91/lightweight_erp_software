@@ -21,6 +21,7 @@ import main
 
 file_name = "crm/customers.csv"
 table_structure = ["Id", "Name", "Email", "Subscribed"]
+options = ("name", "email", "subscribed")
 
 
 def handle_submenu():
@@ -73,18 +74,31 @@ def show_table(table):
 
 def add(table):
     """
-    Asks user for input and adds it into the table.
-
-    Args:
-        table (list): table to add new record to
-
-    Returns:
-        list: Table with a new record
+    Ask user for inputs and update the table.
+    :param table: database - a text file with data records from accounting module
+    :return: updated table with new record
     """
+    new_record = []
+    new_record.append(common.generate_random(table))
 
-    # your code
+    i = 0
+    while i < len(options):
+        user_input = ui.get_inputs(["Enter {}" .format(options[i])], "")
+        if common.data_types_dependent_on_numbers(options[i]):
+            if common.check_is_number(user_input) and common.check_data_in_range(user_input, options[i]):
+                new_record.append(user_input)
+                i += 1
+            else:
+                ui.print_error_message("Please provide a correct value!".upper())
+        else:
+            new_record.append(user_input)
+            i += 1
 
-    return table
+    updated_table = table + [new_record]
+    data_manager.write_table_to_file(file_name, updated_table)
+    show_table(updated_table)
+
+    return updated_table
 
 
 def remove(table, id_):

@@ -6,6 +6,9 @@ implement commonly used functions here
 import random
 
 
+types_list = ["month", "day", "year", "amount", "subscribed"]
+
+
 def generate_random(table):
     """
     Generates random and unique string.
@@ -81,7 +84,6 @@ def data_types_dependent_on_numbers(type_of_data):
     :param type_of_data:
     :return: boolean
     """
-    types_list = ["month", "day", "year", "amount"]
     if type_of_data in types_list:
         return True
     return False
@@ -94,10 +96,13 @@ def check_data_in_range(user_input, user_option):
     :param user_option: list with available user parameters
     :return: boolean
     """
-    types_list = ["month", "day", "year", "amount"]
     indice = get_indices(user_option, types_list)
-    border_conditions = (12, 31, 3000, 1000000)
+    border_conditions = (12, 31, 3000, 1000000, 1)
 
-    if border_conditions[indice] >= int(user_input) > 0:
-        return True
+    if user_option == "subscribed":
+        if int(user_input) == 0 or border_conditions[indice] == int(user_input):
+            return True
+    else:
+        if border_conditions[indice] >= int(user_input) > 0:
+            return True
     return False
