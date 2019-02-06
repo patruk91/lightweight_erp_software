@@ -50,3 +50,54 @@ def handle_sort_names(longest_names):
                 longest_names[indice] = temp
         x += 1
     return longest_names
+
+
+def get_indices(user_input, user_option):
+    """
+    Find index in list
+    :param user_input: value provided from user
+    :param user_option: list with available user parameters
+    :return: i - index
+    """
+    for i in range(len(user_option)):
+        if user_input == user_option[i]:
+            return i
+
+
+def check_is_number(user_input):
+    """
+    Check if input parameter is number.
+    :param user_input: value provided from user
+    :return: boolean
+    """
+    if user_input.isdigit() and int(user_input) >= 0:
+        return True
+    return False
+
+
+def data_types_dependent_on_numbers(type_of_data):
+    """
+    Check if data type is dependent on numbers.
+    :param type_of_data:
+    :return: boolean
+    """
+    types_list = ["month", "day", "year", "amount"]
+    if type_of_data in types_list:
+        return True
+    return False
+
+
+def check_data_in_range(user_input, user_option):
+    """
+    Check if data is in certain boundaries
+    :param user_input: value provided from user
+    :param user_option: list with available user parameters
+    :return: boolean
+    """
+    types_list = ["month", "day", "year", "amount"]
+    indice = get_indices(user_option, types_list)
+    border_conditions = (12, 31, 3000, 1000000)
+
+    if border_conditions[indice] >= int(user_input) > 0:
+        return True
+    return False
