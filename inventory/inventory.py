@@ -26,12 +26,16 @@ actual_year = 2017
 options = ("name", "manufacturer", "purchase year", "durability")
 
 
-
 def handle_submenu():
     """Display sub-menu"""
     title = "\nINVENTORY MODULE"
-    list_options = ["Show table", "Add", "Remove", "Update",
-                    "Show articles that aren't exceeded durability", "Average durability for each manufacturer"]
+    list_options = [
+        "Show table",
+        "Add",
+        "Remove",
+        "Update",
+        "Show articles that aren't exceeded durability",
+        "Average durability for each manufacturer"]
     exit_message = "Back to main menu"
     ui.print_menu(title, list_options, exit_message)
 
@@ -88,11 +92,13 @@ def add(table):
     while i < len(options):
         user_input = ui.get_inputs(["Enter {}" .format(options[i])], "")
         if common.data_types_dependent_on_numbers(options[i]):
-            if common.check_is_number(user_input) and common.check_data_in_range(user_input, options[i]):
+            if common.check_is_number(user_input) and common.check_data_in_range(
+                    user_input, options[i]):
                 new_record.append(user_input)
                 i += 1
             else:
-                ui.print_error_message("Please provide a correct value!".upper())
+                ui.print_error_message(
+                    "Please provide a correct value!".upper())
         else:
             new_record.append(user_input)
             i += 1
@@ -129,11 +135,13 @@ def update(table, id_):
         user_input = ui.get_inputs(["What do you want change?"], "")
         indice_option = common.get_indices(user_input, options)
         if user_input in options:
-            new_record = common.check_possibility_update_record(user_input, searched_record, indice_option)
-            if new_record != None:
+            new_record = common.check_possibility_update_record(
+                user_input, searched_record, indice_option)
+            if new_record is not None:
                 break
         else:
-            ui.print_error_message("Please provide a correct record to edit!".upper())
+            ui.print_error_message(
+                "Please provide a correct record to edit!".upper())
 
     data_manager.write_table_to_file(file_name, table)
     ui.print_table([searched_record], table_structure)
@@ -151,7 +159,9 @@ def get_available_items(table):
     # record[3] == year, record[4] == durability
     convert_actual_dur = [[int(number) if number.isdigit() else number
                            for number in record] for record in actual_durability]
-    ui.print_result(convert_actual_dur, "List of items with actual durability:")
+    ui.print_result(
+        convert_actual_dur,
+        "List of items with actual durability:")
     return convert_actual_dur
 
 
@@ -174,8 +184,8 @@ def get_average_durability_by_manufacturers(table):
                            companies_durability if company == column_company[0]]
                           for company in list_of_manufacturer]
 
-    average_durability = [str(common.add_values(number_list) / len(number_list))
-                          for number_list in list_of_durability]
+    average_durability = [str(common.add_values(
+        number_list) / len(number_list)) for number_list in list_of_durability]
 
     convert_avg_dur = [int(float(num)) if ".0" in num else float(num)
                        for num in average_durability]

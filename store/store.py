@@ -28,8 +28,13 @@ options = ("title", "manufacturer", "price", "in stock")
 def handle_submenu():
     """Display sub-menu"""
     title = "\nSTORE MODULE"
-    list_options = ["Show table", "Add", "Remove", "Update",
-                    "Games by manufacturer", "Average number of games by manufacturer"]
+    list_options = [
+        "Show table",
+        "Add",
+        "Remove",
+        "Update",
+        "Games by manufacturer",
+        "Average number of games by manufacturer"]
     exit_message = "Back to main menu"
     ui.print_menu(title, list_options, exit_message)
 
@@ -87,11 +92,13 @@ def add(table):
     while i < len(options):
         user_input = ui.get_inputs(["Enter {}" .format(options[i])], "")
         if common.data_types_dependent_on_numbers(options[i]):
-            if common.check_is_number(user_input) and common.check_data_in_range(user_input, options[i]):
+            if common.check_is_number(user_input) and common.check_data_in_range(
+                    user_input, options[i]):
                 new_record.append(user_input)
                 i += 1
             else:
-                ui.print_error_message("Please provide a correct value!".upper())
+                ui.print_error_message(
+                    "Please provide a correct value!".upper())
         else:
             new_record.append(user_input)
             i += 1
@@ -128,11 +135,13 @@ def update(table, id_):
         user_input = ui.get_inputs(["What do you want change?"], "")
         indice_option = common.get_indices(user_input, options)
         if user_input in options:
-            new_record = common.check_possibility_update_record(user_input, searched_record, indice_option)
-            if new_record != None:
+            new_record = common.check_possibility_update_record(
+                user_input, searched_record, indice_option)
+            if new_record is not None:
                 break
         else:
-            ui.print_error_message("Please provide a correct record to edit!".upper())
+            ui.print_error_message(
+                "Please provide a correct record to edit!".upper())
 
     data_manager.write_table_to_file(file_name, table)
     ui.print_table([searched_record], table_structure)
@@ -153,7 +162,8 @@ def get_counts_by_manufacturers(table):
         if company[2] not in companies:
             companies.append(company[2])
 
-    games_by_studio = [[game[i] for i in range(len(studio)) if company == studio[i]] for company in companies]
+    games_by_studio = [[game[i] for i in range(
+        len(studio)) if company == studio[i]] for company in companies]
     count_of_games = [len(games) for games in games_by_studio]
     amount_of_games = dict(zip(companies, count_of_games))
     ui.print_result(amount_of_games, "Games amount by manufacturer:")
@@ -168,10 +178,12 @@ def get_average_by_manufacturer(table, manufacturer):
     :return: average number
     """
     ui.print_table(table, table_structure)
-    studio_and_stock = [(record[2], record[4]) for record in table if record[2] == manufacturer]
+    studio_and_stock = [(record[2], record[4])
+                        for record in table if record[2] == manufacturer]
     amount_in_stock = [int(games[1]) for games in
                        studio_and_stock if games[0] == manufacturer]
     avg_count = [common.add_values(amount_in_stock) / len(amount_in_stock)][0]
-    ui.print_result(avg_count, "Average amount of games in stock of a given manufacturer:")
+    ui.print_result(
+        avg_count,
+        "Average amount of games in stock of a given manufacturer:")
     return avg_count
-

@@ -27,8 +27,13 @@ options = ("name", "email", "subscribed")
 def handle_submenu():
     """Display sub-menu"""
     title = "\nCRM MODULE"
-    list_options = ["Show table", "Add", "Remove", "Update",
-                    "Show id of customer with longest name", "Show customers are subscribed newsletter"]
+    list_options = [
+        "Show table",
+        "Add",
+        "Remove",
+        "Update",
+        "Show id of customer with longest name",
+        "Show customers are subscribed newsletter"]
     exit_message = "Back to main menu"
     ui.print_menu(title, list_options, exit_message)
 
@@ -85,11 +90,13 @@ def add(table):
     while i < len(options):
         user_input = ui.get_inputs(["Enter {}" .format(options[i])], "")
         if common.data_types_dependent_on_numbers(options[i]):
-            if common.check_is_number(user_input) and common.check_data_in_range(user_input, options[i]):
+            if common.check_is_number(user_input) and common.check_data_in_range(
+                    user_input, options[i]):
                 new_record.append(user_input)
                 i += 1
             else:
-                ui.print_error_message("Please provide a correct value!".upper())
+                ui.print_error_message(
+                    "Please provide a correct value!".upper())
         else:
             new_record.append(user_input)
             i += 1
@@ -126,11 +133,13 @@ def update(table, id_):
         user_input = ui.get_inputs(["What do you want change?"], "")
         indice_option = common.get_indices(user_input, options)
         if user_input in options:
-            new_record = common.check_possibility_update_record(user_input, searched_record, indice_option)
-            if new_record != None:
+            new_record = common.check_possibility_update_record(
+                user_input, searched_record, indice_option)
+            if new_record is not None:
                 break
         else:
-            ui.print_error_message("Please provide a correct record to edit!".upper())
+            ui.print_error_message(
+                "Please provide a correct record to edit!".upper())
 
     data_manager.write_table_to_file(file_name, table)
     ui.print_table([searched_record], table_structure)
@@ -147,10 +156,12 @@ def get_longest_name_id(table):
     names = [name_column[1] for name_column in table]
     names_length = [len(name_column[1]) for name_column in table]
     max_len_name = max(names_length)
-    longest_names = [names[i] for i in range(len(names)) if names_length[i] == max_len_name]
+    longest_names = [names[i]
+                     for i in range(len(names)) if names_length[i] == max_len_name]
 
     longest_names = common.handle_sort_names(longest_names)
-    get_indice_name = [indice for indice in range(len(names)) if names[indice] == longest_names[-1]][0]
+    get_indice_name = [indice for indice in range(
+        len(names)) if names[indice] == longest_names[-1]][0]
     name_id = table[get_indice_name][0]
     ui.print_result(name_id, "Id of the customer with longest name:")
     return name_id
@@ -162,7 +173,8 @@ def get_subscribed_emails(table):
     :param table: list of lists with data form crm department
     :return: list with subscribed customers
     """
-    subscribed_emails = [record[2] + ";" + record[1] for record in table if int(record[3]) == 1]
+    subscribed_emails = [record[2] + ";" + record[1]
+                         for record in table if int(record[3]) == 1]
     # record[1] == name, record[2] == email, record[3] == subscribed or not
     ui.print_result(subscribed_emails, "Customers that subscribed emails:")
     return subscribed_emails

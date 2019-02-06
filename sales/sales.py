@@ -29,8 +29,13 @@ options = ("title", "price", "month", "day", "year")
 def handle_submenu():
     """Display sub-menu"""
     title = "\nSALES MODULE"
-    list_options = ["Show table", "Add", "Remove", "Update",
-                    "Show id of item with lowest selling price", "Show items sold between dates"]
+    list_options = [
+        "Show table",
+        "Add",
+        "Remove",
+        "Update",
+        "Show id of item with lowest selling price",
+        "Show items sold between dates"]
     exit_message = "Back to main menu"
     ui.print_menu(title, list_options, exit_message)
 
@@ -59,7 +64,14 @@ def start_module():
     elif option == "5":
         get_lowest_price_item_id(table)
     elif option == "6":
-        get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to)
+        get_items_sold_between(
+            table,
+            month_from,
+            day_from,
+            year_from,
+            month_to,
+            day_to,
+            year_to)
     elif option == "0":
         main.main()
     else:
@@ -87,11 +99,13 @@ def add(table):
     while i < len(options):
         user_input = ui.get_inputs(["Enter {}" .format(options[i])], "")
         if common.data_types_dependent_on_numbers(options[i]):
-            if common.check_is_number(user_input) and common.check_data_in_range(user_input, options[i]):
+            if common.check_is_number(user_input) and common.check_data_in_range(
+                    user_input, options[i]):
                 new_record.append(user_input)
                 i += 1
             else:
-                ui.print_error_message("Please provide a correct value!".upper())
+                ui.print_error_message(
+                    "Please provide a correct value!".upper())
         else:
             new_record.append(user_input)
             i += 1
@@ -128,11 +142,13 @@ def update(table, id_):
         user_input = ui.get_inputs(["What do you want change?"], "")
         indice_option = common.get_indices(user_input, options)
         if user_input in options:
-            new_record = common.check_possibility_update_record(user_input, searched_record, indice_option)
-            if new_record != None:
+            new_record = common.check_possibility_update_record(
+                user_input, searched_record, indice_option)
+            if new_record is not None:
                 break
         else:
-            ui.print_error_message("Please provide a correct record to edit!".upper())
+            ui.print_error_message(
+                "Please provide a correct record to edit!".upper())
 
     data_manager.write_table_to_file(file_name, table)
     ui.print_table([searched_record], table_structure)
@@ -148,7 +164,8 @@ def get_lowest_price_item_id(table):
     :return: id of item
     """
     price = min([int(price_column[2]) for price_column in table])
-    title_with_min_price = [record[1] for record in table if int(record[2]) == price]
+    title_with_min_price = [record[1]
+                            for record in table if int(record[2]) == price]
     # record[1] == title_column, record[2] == price_column
     sorted_title = common.handle_sort_names(title_with_min_price)
 
@@ -157,7 +174,14 @@ def get_lowest_price_item_id(table):
     return result[0]
 
 
-def get_items_sold_between(table, month_from, day_from, year_from, month_to, day_to, year_to):
+def get_items_sold_between(
+        table,
+        month_from,
+        day_from,
+        year_from,
+        month_to,
+        day_to,
+        year_to):
     """
     Calcualte items, which are sold between two given dates.
     :param table: text file where are included some information.
@@ -167,10 +191,13 @@ def get_items_sold_between(table, month_from, day_from, year_from, month_to, day
     """
     date_from = "".join(str(year_from) + str(month_from) + str(day_from))
     date_to = "".join(str(year_to) + str(month_to) + str(day_to))
-    dates_to_check = ["".join(str(record[5]) + str(record[3]) + str(record[4])) for record in table]
+    dates_to_check = ["".join(str(record[5]) +
+                              str(record[3]) +
+                              str(record[4])) for record in table]
     # convert to YEAR/MONTH/DAY
 
-    items_sold_between = [table[i] for i in range(len(table)) if date_from < dates_to_check[i] < date_to]
+    items_sold_between = [table[i] for i in range(
+        len(table)) if date_from < dates_to_check[i] < date_to]
     convert_items = [[int(number) if number.isdigit() else number
                       for number in record] for record in items_sold_between]
     ui.print_result(convert_items, "Items from range:")

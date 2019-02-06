@@ -84,11 +84,13 @@ def add(table):
     while i < len(options):
         user_input = ui.get_inputs(["Enter {}" .format(options[i])], "")
         if common.data_types_dependent_on_numbers(options[i]):
-            if common.check_is_number(user_input) and common.check_data_in_range(user_input, options[i]):
+            if common.check_is_number(user_input) and common.check_data_in_range(
+                    user_input, options[i]):
                 new_record.append(user_input)
                 i += 1
             else:
-                ui.print_error_message("Please provide a correct value!".upper())
+                ui.print_error_message(
+                    "Please provide a correct value!".upper())
         else:
             new_record.append(user_input)
             i += 1
@@ -125,11 +127,13 @@ def update(table, id_):
         user_input = ui.get_inputs(["What do you want change?"], "")
         indice_option = common.get_indices(user_input, options)
         if user_input in options:
-            new_record = common.check_possibility_update_record(user_input, searched_record, indice_option)
-            if new_record != None:
+            new_record = common.check_possibility_update_record(
+                user_input, searched_record, indice_option)
+            if new_record is not None:
                 break
         else:
-            ui.print_error_message("Please provide a correct record to edit!".upper())
+            ui.print_error_message(
+                "Please provide a correct record to edit!".upper())
 
     data_manager.write_table_to_file(file_name, table)
     ui.print_table([searched_record], table_structure)
@@ -159,7 +163,8 @@ def get_persons_closest_to_average(table):
     years_avg = common.add_values(years) / len(years)
     similar_years = min(years, key=lambda x: abs(x - years_avg))
 
-    closest_person = [record[1] for record in table if int(record[2]) == similar_years]
+    closest_person = [record[1]
+                      for record in table if int(record[2]) == similar_years]
     # record[1] == name, record[2] == year
     ui.print_result(closest_person, "Closest person to average year:")
     return closest_person

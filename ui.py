@@ -29,7 +29,8 @@ def get_position_width_dictionary(table, title_list):
     """
     width_columns = get_width_columns(table, title_list)
     number_of_columns = len(width_columns)
-    string_positions = ["pos" + str(indices) for indices in range(number_of_columns)]
+    string_positions = ["pos" + str(indices)
+                        for indices in range(number_of_columns)]
     position_value = dict(zip(string_positions, width_columns))
     return position_value
 
@@ -58,7 +59,8 @@ def print_table(table, title_list):
     """
     position_width = get_position_width_dictionary(table, title_list)
     width_table = get_total_width_of_table(table, title_list)
-    string_pos = ''.join(['| {:^{' + pos + '}} ' for pos in position_width.keys()]) + "|"
+    string_pos = ''.join(
+        ['| {:^{' + pos + '}} ' for pos in position_width.keys()]) + "|"
 
     print("-" * width_table)
     print(string_pos.format(*title_list, **position_width))

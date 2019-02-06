@@ -6,8 +6,29 @@ implement commonly used functions here
 import random
 import ui
 
-types_list = ("month", "day", "year", "amount", "subscribed", "birth year", "purchase year", "durability", "price", "in stock")
-border_conditions = (12, 31, 3000, 1000000, 1, 2019, 2019, 10000000, 1000000, 1000000)
+types_list = (
+    "month",
+    "day",
+    "year",
+    "amount",
+    "subscribed",
+    "birth year",
+    "purchase year",
+    "durability",
+    "price",
+    "in stock")
+
+border_conditions = (
+    12,
+    31,
+    3000,
+    1000000,
+    1,
+    2019,
+    2019,
+    10000000,
+    1000000,
+    1000000)
 
 
 def generate_random(table):
@@ -16,10 +37,14 @@ def generate_random(table):
     :param table: database - a text file with data records from different modules
     :return: Random unique id/key
     """
-    unique_values = ["abcdefghijklmnopqrstuvwxyz", "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-                     "1234567890", "\`~!@#$%^&*()_-+={[}}|:,'<>?/"]
+    unique_values = [
+        "abcdefghijklmnopqrstuvwxyz",
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+        "1234567890",
+        "\`~!@#$%^&*()_-+={[}}|:,'<>?/"]
     while True:
-        string_generator = [random.choice(char) for char in unique_values for _ in range(2)]
+        string_generator = [random.choice(char)
+                            for char in unique_values for _ in range(2)]
         random.shuffle(string_generator)
         generated = "".join(string_generator)
         id_list = [column_id_key[0] for column_id_key in table]
@@ -100,7 +125,8 @@ def check_data_in_range(user_input, user_option):
     indice = get_indices(user_option, types_list)
 
     if user_option == "subscribed":
-        if int(user_input) == 0 or border_conditions[indice] == int(user_input):
+        if int(user_input) == 0 or border_conditions[indice] == int(
+                user_input):
             return True
     else:
         if border_conditions[indice] >= int(user_input) > 0:
@@ -127,7 +153,10 @@ def get_correct_id(table, id_, table_structure):
     return searched_record
 
 
-def check_possibility_update_record(user_input, searched_record, indice_option):
+def check_possibility_update_record(
+        user_input,
+        searched_record,
+        indice_option):
     """
     Check if is possible to update record in table.
     :param user_input: parameter to change by user in each module
@@ -137,7 +166,8 @@ def check_possibility_update_record(user_input, searched_record, indice_option):
     """
     if data_types_dependent_on_numbers(user_input):
         number_to_check = ui.get_inputs(["Please provide a new value"], "")
-        if check_is_number(number_to_check) and check_data_in_range(number_to_check, user_input):
+        if check_is_number(number_to_check) and check_data_in_range(
+                number_to_check, user_input):
             searched_record[indice_option + 1] = number_to_check
             return searched_record
         else:

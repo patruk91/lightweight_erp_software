@@ -29,8 +29,13 @@ options = ("month", "day", "year", "type", "amount")
 def handle_submenu():
     """Display sub-menu"""
     title = "\nACCOUNTING MODULE"
-    list_options = ["Show table", "Add", "Remove", "Update",
-                    "Show year with highest profit", "Average profit in given year"]
+    list_options = [
+        "Show table",
+        "Add",
+        "Remove",
+        "Update",
+        "Show year with highest profit",
+        "Average profit in given year"]
     exit_message = "Back to main menu"
     ui.print_menu(title, list_options, exit_message)
 
@@ -88,11 +93,13 @@ def add(table):
     while i < len(options):
         user_input = ui.get_inputs(["Enter {}" .format(options[i])], "")
         if common.data_types_dependent_on_numbers(options[i]):
-            if common.check_is_number(user_input) and common.check_data_in_range(user_input, options[i]):
+            if common.check_is_number(user_input) and common.check_data_in_range(
+                    user_input, options[i]):
                 new_record.append(user_input)
                 i += 1
             else:
-                ui.print_error_message("Please provide a correct value!".upper())
+                ui.print_error_message(
+                    "Please provide a correct value!".upper())
         else:
             new_record.append(user_input)
             i += 1
@@ -129,11 +136,13 @@ def update(table, id_):
         user_input = ui.get_inputs(["What do you want change?"], "")
         indice_option = common.get_indices(user_input, options)
         if user_input in options:
-            new_record = common.check_possibility_update_record(user_input, searched_record, indice_option)
-            if new_record != None:
+            new_record = common.check_possibility_update_record(
+                user_input, searched_record, indice_option)
+            if new_record is not None:
                 break
         else:
-            ui.print_error_message("Please provide a correct record to edit!".upper())
+            ui.print_error_message(
+                "Please provide a correct record to edit!".upper())
 
     data_manager.write_table_to_file(file_name, table)
     ui.print_table([searched_record], table_structure)
@@ -154,7 +163,8 @@ def which_year_max(table):
                     transaction_type[indices] == "in"]
 
     if len(year_indices) > 1:
-        years_max = [int(table[year_indices[indices]][3]) for indices in range(len(year_indices))]
+        years_max = [int(table[year_indices[indices]][3])
+                     for indices in range(len(year_indices))]
         return years_max
 
     year_indices = year_indices[0]
@@ -170,9 +180,11 @@ def avg_amount(table, year):
     :param year: year to search
     :return: profit = (income - outflow)/(items count)
     """
-    cash_flow = [(record[4], int(record[5])) for record in table if int(record[3]) == int(year)]
+    cash_flow = [(record[4], int(record[5]))
+                 for record in table if int(record[3]) == int(year)]
     income = [wages[1] for wages in cash_flow if wages[0] == "in"]
     outflow = [wages[1] for wages in cash_flow if wages[0] == "out"]
-    profit = (common.add_values(income) - common.add_values(outflow)) / len(cash_flow)
+    profit = (common.add_values(income) -
+              common.add_values(outflow)) / len(cash_flow)
     ui.print_result(profit, "Average profit in was:")
     return profit
