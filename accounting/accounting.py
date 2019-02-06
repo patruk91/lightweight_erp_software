@@ -120,22 +120,25 @@ def remove(table, id_):
 def update(table, id_):
     """
     Updates specified record in the table. Ask users for new data.
-
-    Args:
-        table (list): list in which record should be updated
-        id_ (str): id of a record to update
-
-    Returns:
-        list: table with updated record
+    :param table: text file where are included some information.
+    :param id_: id of a record to update
+    :return: list of list with updated record
     """
+    searched_record = common.get_correct_id(table, id_, table_structure)
+    while True:
+        user_input = ui.get_inputs(["What do you want change?"], "")
+        indice_option = common.get_indices(user_input, options)
+        if user_input in options:
+            new_record = common.check_possibility_update_record(user_input, searched_record, indice_option)
+            if new_record != None:
+                break
+        else:
+            ui.print_error_message("Please provide a correct record to edit!".upper())
 
-    # your code
-
+    data_manager.write_table_to_file(file_name, table)
+    ui.print_table([searched_record], table_structure)
     return table
 
-
-# special functions:
-# ------------------
 
 def which_year_max(table):
     """

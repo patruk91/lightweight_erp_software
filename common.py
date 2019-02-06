@@ -4,7 +4,7 @@ implement commonly used functions here
 
 
 import random
-
+import ui
 
 types_list = ("month", "day", "year", "amount", "subscribed", "birth year", "purchase year", "durability", "price", "in stock")
 border_conditions = (12, 31, 3000, 1000000, 1, 2019, 2019, 10000000, 1000000, 1000000)
@@ -106,3 +106,42 @@ def check_data_in_range(user_input, user_option):
         if border_conditions[indice] >= int(user_input) > 0:
             return True
     return False
+
+
+def get_correct_id(table, id_, table_structure):
+    """
+    Check if user provided id which is in database(table)
+    :param table: text file where are included some information.
+    :param id_: id/key record to be find
+    :return: record which is compatible with id
+    """
+    while True:
+        searched_record = [record for record in table if id_ == record[0]]
+        if searched_record != []:
+            break
+        ui.print_error_message("Please provide correct id!".upper())
+        id_ = ui.get_inputs(["Enter id of record who you want edit"], "")
+
+    ui.print_table(searched_record, table_structure)
+    searched_record = searched_record[0]  # unpack from list of lists
+    return searched_record
+
+
+def check_possibility_update_record(user_input, searched_record, indice_option):
+    """
+    Check if is possible to update record in table.
+    :param user_input: parameter to change by user in each module
+    :param searched_record: id of record, which user want to change
+    :param indice_option: index of this parameter in each module
+    :return: updated record with new value
+    """
+    if data_types_dependent_on_numbers(user_input):
+        number_to_check = ui.get_inputs(["Please provide a new value"], "")
+        if check_is_number(number_to_check) and check_data_in_range(number_to_check, user_input):
+            searched_record[indice_option + 1] = number_to_check
+            return searched_record
+        else:
+            ui.print_error_message("Please provide a correct value!".upper())
+    else:
+        searched_record[indice_option] = user_input
+        return searched_record
