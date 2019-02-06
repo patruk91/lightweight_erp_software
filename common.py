@@ -6,7 +6,7 @@ implement commonly used functions here
 import random
 
 
-types_list = ["month", "day", "year", "amount", "subscribed"]
+types_list = ("month", "day", "year", "amount", "subscribed", "birth year")
 
 
 def generate_random(table):
@@ -97,7 +97,7 @@ def check_data_in_range(user_input, user_option):
     :return: boolean
     """
     indice = get_indices(user_option, types_list)
-    border_conditions = (12, 31, 3000, 1000000, 1)
+    border_conditions = (12, 31, 3000, 1000000, 1, 2019)
 
     if user_option == "subscribed":
         if int(user_input) == 0 or border_conditions[indice] == int(user_input):
